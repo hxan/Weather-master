@@ -1,0 +1,100 @@
+
+<style>
+.linear{ 
+width:100%; 
+height:600px; 
+FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=##5a98c7,endColorStr=#fafafa); /*IE*/ 
+background:-moz-linear-gradient(top,#5a98c7,#fafafa);/*火狐*/ 
+background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#5a98c7), to(#fafafa));/*谷歌*/ 
+background-image: -webkit-gradient(linear,left bottom,left top,color-start(0, #5a98c7),color-stop(1, #fafafa));/* Safari & Chrome*/ 
+filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#5a98c7', endColorstr='#fafafa'); /*IE6 & IE7*/ 
+-ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#5a98c7', endColorstr='#fafafa')"; /* IE8 */ 
+position : relative;
+z-index : -1
+} 
+ 
+  .te {
+   font-size: 30;
+   margin-left : 580;
+   margin-top : -450;
+  }
+  
+  .progress4 {
+    display: block; 
+    font: inherit;
+    height: 100px;
+    width: 500px;
+    pointer-events: none;
+    display:flex;
+    margin-top : 30;
+	margin-left : 420;
+  }
+  .btn {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20;
+	margin-left : 600;
+  }
+   .cho {
+   font-size: 18;
+   margin-left : 520;
+   margin-top : 10;
+  }
+  
+</style>
+<div id="linear" class="linear"></div>
+
+
+<div id="te" class="te">RF-LSTM预测</div>
+<meter id="progress4" class="progress4" low="60" high="80" min="0" max="100" value="0"></meter>
+<button id="btn" class="btn">开始预测</button>
+<div id="cho" class="cho">
+	算法选择
+	<select>
+	  <option value="RF-LSTM">RF-LSTM</option>
+	  <option value="RF-LSTM">LSTM</option>
+	</select>
+	
+	  预测指标
+	<select>
+	  <option value="qw">气温</option>
+	  <option value="sd">湿度</option>
+	  <option value="qy">气压</option>
+	  <option value="fs">风速</option>
+	</select>
+</div>
+
+<script>
+  'use strict';
+  let startTimestamp = (new Date()).getTime();
+  let currentPercentage = 0;
+  let maxPercentage = 100;
+  let countDelay = 500;
+  let timer = null;
+  let start = false;
+  const percentageChange = () => {
+    const currentTimestamp = (new Date()).getTime();
+    if (currentTimestamp - startTimestamp >= countDelay) {
+      currentPercentage++;
+      startTimestamp = (new Date()).getTime();
+      progress4.value = currentPercentage;
+    };
+    if (currentPercentage < maxPercentage) {
+      timer = window.requestAnimationFrame(percentageChange);
+    } else {
+      window.cancelAnimationFrame(timer);
+    };
+  };
+  const clickHander = () => {
+    if (!start) {
+      start = true;
+      percentageChange();
+    };
+  };
+  btn.addEventListener('click', clickHander);
+</script>

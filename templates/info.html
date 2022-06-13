@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="static/assets/css/index.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="content">
+        <div class="left">
+            <!--气压-->
+            <div class="air">
+                <div class="air-title title numfont">气压</div>
+                <div class="air-relative">
+                    <div class="air-val">
+                        <span class="air-icon"></span>
+                        <div class="numfont">
+                            <p class="hpa-rel"></p>
+                            <p class="hpa-nam">相对气压</p>
+                        </div>
+                    </div>
+                    <div class="gray">
+
+                    </div>
+                    <div class="light">
+
+                    </div>
+                    <div class="unit">HPA</div>
+                </div>
+                <div class="air-absolutely">
+                    <div class="air-val">
+                        <span class="air-icon"></span>
+                        <div class="numfont">
+                            <p class="hpa-abs"></p>
+                            <p class="hpa-nam">绝对气压</p>
+                        </div>
+                    </div>
+                    <div class="gray">
+
+                    </div>
+                    <div class="light">
+
+                    </div>
+                    <div class="unit">HPA</div>
+                </div>
+            </div>
+            <!--气压 end-->
+            <!--温度和湿度-->
+            <div class="tem-hum">
+                <div class="temperature">
+                    <div class="tem-hum-title numfont">温度</div>
+                    <div class="tem-hum-chart" id="temChart">
+
+                    </div>
+                    <div class="tem-val">
+                        <span class="indoor">22℃</span>
+                        <span class="outdoor">33℃</span>
+                    </div>
+                </div>
+                <div class="humidity">
+                    <div class="tem-hum-title numfont">湿度</div>
+                    <div class="tem-hum-chart" id="humChart">
+
+                    </div>
+                    <div class="hum-val">
+                        <span class="indoor">22%</span>
+                        <span class="outdoor">33%</span>
+                    </div>
+                </div>
+            </div>
+            <!--温度和湿度 end-->
+            <!--温度一周k线图-->
+            <div class="temp-k">
+                <div class="title numfont">温度表</div>
+                <div id="tempKChart">
+
+                </div>
+            </div>
+            <!--温度一周k线图 end-->
+
+            <!--湿度一走k线图-->
+            <div class="dity-k">
+                <div class="title numfont">湿度表</div>
+                <div id="dityKChart">
+
+                </div>
+            </div>
+            <!--湿度一走k线图 end-->
+        </div>
+
+        <div class="middle">
+            <div class="headTitle">气象站</div>
+            <!--地图-->
+            <div class="chinaMap" style="color: white;">
+                <div class="circle0"></div>
+
+                <div id="btn" style="display: none;">
+                    <div style="position: relative;">
+                        <div class="btn0"></div>
+                        <div class="btn1"></div>
+                        <div class="btn2"></div>
+                    </div>
+                </div>
+
+                <div class="mapBox">
+                    <div id="map">
+
+                    </div>
+                </div>
+                <div class="circle1"></div>
+            </div>
+            <!--地图 end-->
+            <!--动画-->
+            <div class="lineRun">
+
+            </div>
+            <!--动画 end-->
+        </div>
+
+        <div class="right">
+            <div class="information">
+                <!--基本信息-->
+                <div class="baseInfo">
+                    <p class="infoTitle">测试点</p>
+                    <p class="area">城市</p>
+                    <p class="infoTitle">
+                        日期
+                        <span class="date">2022/3/31</span>
+                    </p>
+                    <p class="infoTitle">
+                        地点
+                        <span class="idNum">北京</span>
+                    </p>
+
+                </div>
+                <!--基本信息 end-->
+                <!--温度/露点/风寒/热指数-->
+                <div class="temData">
+                    <p class="infoTitle" style="margin-bottom: 0;font-size: 12px;">室内温度</p>
+                    <p class="temTitle">温度</p>
+                    <p class="indoorTem"><span class="temperatureN">25</span>℃</p>
+                </div>
+                <!--温度/露点/风寒/热指数 end-->
+            </div>
+            <!--风-->
+            <div class="wind">
+                <div class="air-title title numfont">风力指标</div>
+                <div id="windChart">
+
+                </div>
+                <div class="windData">
+                    <div class="windSpeed">
+                        <div class="windTitle numfont">风速</div>
+                        <div class="windBox">
+                            <div style="width: 33%;margin-left: 4%;">
+                                <p>当前风速</p>
+                                <p><span class="currentSpeed" id="nowWind">0</span>M/S</p>
+                            </div>
+                            <div style="width: 33%;">
+                                <p>最高风速</p>
+                                <p><span class="highestSpeed" id="highWind">0</span>M/S</p>
+                            </div>
+                            <div style="width: 30%">
+                                <div class="windWrap">
+                                    <img src="static/assets/img/wind1.png" class="windFan">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gust">
+                        <div class="windTitle numfont">强风</div>
+                        <div class="windBox">
+                            <div style="width: 33%;margin-left: 4%;">
+                                <p>当前风速</p>
+                                <p><span class="currentSpeed" id="nowGust">28</span>M/S</p>
+                            </div>
+                            <div style="width: 33%;">
+                                <p>最高风速</p>
+                                <p><span class="highestSpeed" id="highGust">43</span>M/S</p>
+                            </div>
+                            <div style="width: 30%">
+                                <div class="windWrap">
+                                    <img src="static/assets/img/wind1.png" class="windFan">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--风 end-->
+            <!--降雨量-->
+            <div class="rainfall">
+                <div class="air-title title numfont">降雨量</div>
+                <div class="windData">
+                    <div class="windSpeed">
+                        <div class="windTitle numfont">日降雨量(mm)</div>
+                        <div class="windBox">
+                            <div style="width: 33%;margin-left: 4%;">
+                                <p>当前值</p>
+                                <p><span class="currentSpeed" id="nowDay">23</span></p>
+                            </div>
+                            <div style="width: 31%;margin-left: 2%">
+                                <p>最高值</p>
+                                <p><span class="highestSpeed" id="highDay">46</span></p>
+                            </div>
+                            <div style="width: 30%">
+                                <div class="rainWrap" style="margin: 10px auto;text-align: center;">
+                                    <canvas id="rainfallOne" ></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gust">
+                        <div class="windTitle numfont">周降雨量(mm)</div>
+                        <div class="windBox">
+                            <div style="width: 33%;margin-left: 4%;">
+                                <p>当前值</p>
+                                <p><span class="currentSpeed" id="nowWeek">28</span></p>
+                            </div>
+                            <div style="width: 31%;margin-left: 2%">
+                                <p>最高值</p>
+                                <p><span class="highestSpeed" id="highWeek">43</span></p>
+                            </div>
+                            <div style="width: 30%">
+                                <div class="rainWrap" style="margin: 10px auto;text-align: center;">
+                                    <canvas id="rainfallTwo"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="windData">
+                    <div class="windSpeed">
+                        <div class="windTitle numfont">月降雨量(mm)</div>
+                        <div class="windBox">
+                            <div style="width: 33%;margin-left: 4%;">
+                                <p>当前值</p>
+                                <p><span class="currentSpeed" id="nowMonth">23</span></p>
+                            </div>
+                            <div style="width: 31%;margin-left: 2%">
+                                <p>最高值</p>
+                                <p><span class="highestSpeed" id="highMonth">46</span></p>
+                            </div>
+                            <div style="width: 30%">
+                                <div class="rainWrap" style="margin: 10px auto;text-align: center;">
+                                    <canvas id="rainfallThree"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gust">
+                        <div class="windTitle numfont">年降雨量(mm)</div>
+                        <div class="windBox">
+                            <div style="width: 33%;margin-left: 4%;">
+                                <p>当前值</p>
+                                <p><span class="currentSpeed" id="nowYear">28</span></p>
+                            </div>
+                            <div style="width: 31%;margin-left: 2%">
+                                <p>最高值</p>
+                                <p><span class="highestSpeed" id="highYear">43</span></p>
+                            </div>
+                            <div style="width: 30%">
+                                <div class="rainWrap" style="margin: 10px auto;text-align: center;">
+                                    <canvas id="rainfallFour"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--降雨量 end-->
+        </div>
+    </div>
+    <script src="static/assets/js/jquery-3.2.1.min.js"></script>
+    <script src="static/assets/js/echarts.js"></script>
+    <script src="static/assets/js/china.js"></script>
+    <script src="static/assets/js/render.js"></script>
+
+    <script>
+        $(function(){
+            for(var i=0;i<50;i++){
+                $('.air-relative').find('.gray').append('<span></span>');
+                $('.air-absolutely').find('.gray').append('<span></span>')
+            }
+            var pressureValRel=0;//初始气压(相对)
+            var pressureValNowRel=32;//当前气压（相对）
+            function airPreRel(now,old,par){
+                if(now>old){
+                    par.find('.light').append('<span></span>');
+                    pressureValRel++;
+                }else if(now<old){
+                    par.find('.light').children('span:last-child').remove();
+                    pressureValRel--;
+                }else{
+                    clearInterval(pressureRunRel);
+                    return
+                }
+                $('.hpa-rel').text(pressureValRel*2);
+            }
+            var pressureRunRel=setInterval(function(){
+                airPreRel(pressureValNowRel,pressureValRel,$('.air-relative'));
+            },50);
+
+            var pressureValAbs=0;//初始气压(绝对)
+            var pressureValNowAbs=21;//当前气压（绝对）
+            function airPreAbs(now,old,par){
+                if(now>old){
+                    par.find('.light').append('<span></span>');
+                    pressureValAbs++;
+                }else if(now<old){
+                    par.find('.light').children('span:last-child').remove();
+                    pressureValAbs--;
+                }else{
+                    clearInterval(pressureRunAbs);
+                    return
+                }
+                $('.hpa-abs').text(pressureValAbs*2);
+            }
+            var pressureRunAbs=setInterval(function(){
+                airPreAbs(pressureValNowAbs,pressureValAbs,$('.air-absolutely'));
+            },50);
+
+            //温度和湿度
+            var temChart=echarts.init(document.getElementById('temChart'));
+            var humChart=echarts.init(document.getElementById('humChart'));
+            var temOption={
+                tooltip:{
+                   formatter:'{a}<br/>当前：{c}℃'
+                },
+                series:[
+                    //内圈
+                    {
+                        type:'gauge',
+                        center : ['50%', '60%'],    // 默认全局居中
+                        radius : '30%',
+                        min:0,
+                        max:10,
+                        startAngle: 270,
+                        endAngle: -89.99999,
+                        splitNumber:10,
+                        axisLine: {            // 仪表盘轴线
+                            lineStyle: {       // 属性lineStyle控制线条样式
+                                color: [[1, '#ff4500']],
+                                width: 0,
+                                shadowColor : '#fff', //默认透明
+                                shadowBlur: 10
+                            }
+                        },
+                        axisLabel: {            // 刻度标签
+                            show:false
+                        },
+                        axisTick: {            // 刻度
+                            length :4,        // 属性length控制线长
+                            lineStyle: {       // 属性lineStyle控制线条样式
+                                color: 'rgba(176,204,53,.5)'
+                            }
+                        },
+                        splitLine: {           // 分隔线
+                            show:false
+                        },
+                        pointer: {
+                            width:0,
+                            shadowColor : '#fff', //默认透明
+                            shadowBlur: 5
+                        },
+                        detail : {
+                            show : false
+                        }
+                    },
+                    //中圈
+                    {
+                        name:'转速',
+                        type:'gauge',
+                        center : ['50%', '60%'],    // 默认全局居中
+                        radius : '60%',
+                        min:0,
+                        max:10,
+                        splitNumber:10,
+                        axisLine: {            // 坐标轴线
+                            lineStyle: {       // 属性lineStyle控制线条样式
+                                color: [[1,'#6E6560' ]],
+                                width: 8,
+                                shadowBlur: 10
+                            }
+                        },
+                        axisLabel: {            // 刻度
+                            textStyle: {       // 属性lineStyle控制线条样式
+                                fontWeight:'' ,
+                                color: 'rgba(30,144,255,0)',
+                                shadowColor : '#fff', //默认透明
+                                shadowBlur: 10
+                            }
+                        },
+                        axisTick: {            // 坐标轴小标记
+                            length :2,        // 属性length控制线长
+                            lineStyle: {       // 属性lineStyle控制线条样式
+                                color: 'auto'
+                                /*shadowColor : '#fff', //默认透明
+                                 shadowBlur: 10*/
+                            }
+                        },
+                        splitLine: {           // 分隔线
+                            length :0,         // 属性length控制线长
+                            lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                                width:0,
+                                color: '#fff',
+                                shadowColor : '#fff', //默认透明
+                                shadowBlur: 10
+                            }
+                        },
+                        pointer: {
+                            width:0,
+                            shadowColor : '#fff', //默认透明
+                            shadowBlur: 5
+                        },
+                        detail : {
+                            show : false
+                        }
+                    },
+                    //外圈室内
+                    {
+                        type:'gauge',
+                        center : ['50%', '60%'],    // 默认全局居中
+                        radius:'100%',
+                        min:0,
+                        max:100,
+                        name:'室内',
+                        axisLine: {            // 坐标轴线
+                            lineStyle: {
+                                color: [[1, '#C7C5C3']],// 属性lineStyle控制线条样式
+                                width: 1
+                            }
+                        },
+                        itemStyle:{
+                            normal:{
+                                color:'#FF0000'
+                            }
+                        },
+                        axisTick:{
+                            length:3
+                        },
+                        axisLabel: {            // 坐标轴小标记
+                            textStyle: {       // 属性lineStyle控制线条样式
+                                fontWeight: 'bolder',
+                                fontSize : 10,
+                                fontFamily:'numfont'
+                            }
+                        },
+                        splitLine: {           // 分隔线
+                            length : 5,         // 属性length控制线长
+                            lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                                width:1
+                            }
+                        },
+                        pointer:{
+                            width:3,
+                            length:'90%'
+                        },
+                        detail : {
+                            show : false
+                        },
+                        data:[{value: 40}]
+                    },
+                    //外圈室外
+                    {
+                        type:'gauge',
+                        center : ['50%', '60%'],    // 默认全局居中
+                        radius : '100%',
+                        min:0,
+                        max:100,
+                        name:'室外',
+                        axisTick:{
+                            length:3
+                        },
+                        axisLine: {            // 坐标轴线
+                            lineStyle: {
+                                color: [[1, '#C7C5C3']],// 属性lineStyle控制线条样式
+                                width: 1
+                            }
+                        },
+                        pointer:{
+                            width:3,
+                            length:'90%'
+                        },
+                        itemStyle:{
+                            normal:{
+                                color:'#B0CC35'
+                            }
+
+                        },
+                        axisLabel: {
+                            textStyle: {
+                                fontWeight: 'bolder',
+                                fontSize : 16,
+                                color: 'rgba(30,144,255,0)'
+                            }
+                        },
+                        splitLine: {           // 分隔线
+                            length : 5,         // 属性length控制线长
+                            lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                                width:1
+                            }
+                        },
+                        detail : {
+                            show : false
+                        },
+                        data:[{value: 58}],
+                        title:{
+                            show:false
+                        }
+                    }
+                ]
+            };
+            var humOption={
+                tooltip:{
+                    formatter:'{a}<br/>当前：{c}%'
+                },
+                series : [
+                    //内圈
+                    {
+                        type:'gauge',
+                        center : ['50%', '60%'],    // 默认全局居中
+                        radius : '30%',
+                        min:0,
+                        max:10,
+                        startAngle: 270,
+                        endAngle: -89.99999,
+                        splitNumber:10,
+                        axisLine: {            // 仪表盘轴线
+                            lineStyle: {       // 属性lineStyle控制线条样式
+                                color: [[1, '#ff4500']],
+                                width: 0,
+                                shadowColor : '#fff', //默认透明
+                                shadowBlur: 10
+                            }
+                        },
+                        axisLabel: {            // 刻度标签
+                           show:false
+                        },
+                        axisTick: {            // 刻度
+                            length :4,        // 属性length控制线长
+                            lineStyle: {       // 属性lineStyle控制线条样式
+                                color: 'rgba(176,204,53,.5)'
+                            }
+                        },
+                        splitLine: {           // 分隔线
+                           show:false
+                        },
+                        pointer: {
+                            width:0,
+                            shadowColor : '#fff', //默认透明
+                            shadowBlur: 5
+                        },
+                        detail : {
+                            show : false
+                        }
+                    },
+                    //中圈
+                    {
+                        name:'转速',
+                        type:'gauge',
+                        center : ['50%', '60%'],    // 默认全局居中
+                        radius : '60%',
+                        min:0,
+                        max:10,
+                        splitNumber:10,
+                        axisLine: {            // 坐标轴线
+                            lineStyle: {       // 属性lineStyle控制线条样式
+                                color: [[1,'#6E6560' ]],
+                                width: 8,
+
+                                shadowBlur: 10
+                            }
+                        },
+                        axisLabel: {            // 刻度
+                            textStyle: {       // 属性lineStyle控制线条样式
+                                fontWeight:'' ,
+                                color: 'rgba(30,144,255,0)',
+                                shadowColor : '#fff', //默认透明
+                                shadowBlur: 10
+                            }
+                        },
+                        axisTick: {            // 坐标轴小标记
+                            length :2,        // 属性length控制线长
+                            lineStyle: {       // 属性lineStyle控制线条样式
+                                color: 'auto'
+                                /*shadowColor : '#fff', //默认透明
+                                 shadowBlur: 10*/
+                            }
+                        },
+                        splitLine: {           // 分隔线
+                            length :0,         // 属性length控制线长
+                            lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                                width:0,
+                                color: '#fff',
+                                shadowColor : '#fff', //默认透明
+                                shadowBlur: 10
+                            }
+                        },
+                        pointer: {
+                            width:0,
+                            shadowColor : '#fff', //默认透明
+                            shadowBlur: 5
+                        },
+                        detail : {
+                            show : false
+                        }
+                    },
+                    //外圈室内
+                    {
+                        type:'gauge',
+                        center : ['50%', '60%'],    // 默认全局居中
+                        radius:'100%',
+                        min:0,
+                        max:100,
+                        name:'室内',
+                        axisLine: {            // 坐标轴线
+                            lineStyle: {
+                                color: [[1, '#C7C5C3']],// 属性lineStyle控制线条样式
+                                width: 1
+                            }
+                        },
+                        itemStyle:{
+                            normal:{
+                                color:'#FF0000'
+                            }
+                        },
+                        axisTick:{
+                            length:3
+                        },
+                        axisLabel: {            // 坐标轴小标记
+                            textStyle: {       // 属性lineStyle控制线条样式
+                                fontWeight: 'bolder',
+                                fontSize : 10,
+                                fontFamily:'numfont'
+                            }
+                        },
+                        splitLine: {           // 分隔线
+                            length : 5,         // 属性length控制线长
+                            lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                                width:1
+                            }
+                        },
+                        pointer:{
+                            width:3,
+                            length:'90%'
+                        },
+                        detail : {
+                            show : false
+                        },
+                        data:[{value: 40}]
+                    },
+                    //外圈室外
+                    {
+                        type:'gauge',
+                        center : ['50%', '60%'],    // 默认全局居中
+                        radius : '100%',
+                        min:0,
+                        max:100,
+                        name:'室外',
+                        axisTick:{
+                            length:3
+                        },
+                        axisLine: {            // 坐标轴线
+                            lineStyle: {
+                                color: [[1, '#C7C5C3']],// 属性lineStyle控制线条样式
+                                width: 1
+                            }
+                        },
+                        pointer:{
+                            width:3,
+                            length:'90%'
+                        },
+                        itemStyle:{
+                            normal:{
+                                color:'#B0CC35'
+                            }
+
+                        },
+                        axisLabel: {
+                            textStyle: {
+                                fontWeight: 'bolder',
+                                fontSize : 16,
+                                color: 'rgba(30,144,255,0)'
+                            }
+                        },
+                        splitLine: {           // 分隔线
+                            length : 5,         // 属性length控制线长
+                            lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                                width:1
+                            }
+                        },
+                        detail : {
+                            show : false
+                        },
+                        data:[{value: 58}],
+                        title:{
+                            show:false
+                        }
+                    }
+
+                ]
+            };
+            temChart.setOption(temOption);
+            humChart.setOption(humOption);
+            var temVal=[0,0];
+            var humVal=[0,0];
+
+            //温度k线值
+            //温度数据：最低温度，最高温度
+            var linedata_temp = [
+                ['2022/3/11', 21,24,21,24],
+                ['2022/3/12', 21,24,21,24],
+                ['2022/3/13', 22,27,22,27],
+                ['2022/3/14', 23,28,23,28],
+                ['2022/3/15', 21,24,21,24],
+                ['2022/3/16', 28,24,28,24],
+                ['2022/3/17', 21,24,21,24],
+                ['2022/3/18', 27,21,27,21],
+                ['2022/3/19', 20,23,20,23],
+                ['2022/3/20', 22,27,22,27],
+                ['2022/3/21', 23,28,23,28],
+                ['2022/3/22', 21,24,21,24],
+                ['2022/3/23', 28,24,28,24],
+                ['2022/3/24', 21,24,21,24],
+                ['2022/3/25', 27,21,27,21],
+                ['2022/3/26', 20,23,20,23],
+                ['2022/3/27', 22,27,22,27],
+                ['2022/3/28', 23,28,23,28],
+                ['2022/3/29', 21,24,21,24],
+                ['2022/3/30', 28,24,28,24],
+                ['2022/3/31', 21,24,21,24],
+            ];
+            //数据序列化
+            function splitData(rawData) {
+                var categoryData = [];
+                var values = [];
+                for (var i = 0; i < rawData.length; i++) {
+                    categoryData.push(rawData[i].splice(0, 1)[0]);
+                    values.push(rawData[i])
+                }
+                return {
+                    categoryData: categoryData,
+                    values: values
+                };
+            }
+            var data_temp=splitData(linedata_temp);
+
+            function calculateMA(dayCount, data) {
+                var result = [];
+                for (var i = 0, len = data.length; i < len; i++) {
+                    if (i < dayCount) {
+                        result.push('-');
+                        continue;
+                    }
+                    var sum = 0;
+                    for (var j = 0; j < dayCount; j++) {
+                        sum += data[i - j][1];
+                    }
+                    result.push((sum / dayCount).toFixed(2));
+                }
+                return result;
+            }
+
+            var temKOption={
+                tooltip:{//提示框组件
+                    trigger: 'axis',//坐标轴触发
+                    axisPointer: {
+                        type: 'cross'
+                    },
+                    width:2
+                },
+                legend:{
+                    data:['日K','MA5','MA10'],
+                    top:0,
+                    textStyle:{
+                        color:'#fff'
+                    }
+                },
+
+                xAxis: {
+                    type: 'category',
+                    data: data_temp.categoryData,
+                    boundaryGap : false,
+                    axisLine: { lineStyle: { color: '#777' } }
+                },
+                yAxis: {
+                    scale: true,
+                    splitNumber: 4,//坐标轴的分割段数
+                    axisLine: { lineStyle: { color: '#777' } },
+                    splitLine: {
+                        show: true,
+                        lineStyle:{
+                            color:'#777'
+                        }
+                    },//坐标轴在 ((grid)) 区域中的分隔线。
+                    axisTick: {
+                        show: false
+                    },//刻度
+                    axisLabel: {//标签
+                        formatter: '{value}°C'
+                    }
+                },
+                dataZoom: [
+                    {
+                        type: 'inside',
+                        start: 50,
+                        end: 100
+                    }
+                ],
+                grid: [{//直角坐标系内绘图网格
+                    height:'60%',
+                    top: 25
+                }],
+                series:[
+                    {
+                        type: 'candlestick',
+                        name: '日K',
+                        data: data_temp.values,
+                        barWidth:'15%',
+                        //barMinWidth:'10%',
+                        itemStyle: {
+                            normal: {
+                                color: 'red',
+                                color0: '#B0CC35',
+                                borderColor: 'red',
+                                borderColor0: '#B0CC35'
+                            }
+                        }
+                    },
+                    {
+                        name: 'MA5',
+                        type: 'line',
+                        data: calculateMA(5,data_temp.values),
+                        smooth: true
+                    },
+                    {
+                        name: 'MA10',
+                        type: 'line',
+                        data: calculateMA(10,data_temp.values),
+                        smooth: true,
+                        itemStyle:{
+                            normal:{
+                                color:'#B0CC35'
+                            }
+                        }
+                    }
+                ]
+            };
+            //温度k线图
+            var tempKChart=echarts.init(document.getElementById('tempKChart'));
+            tempKChart.setOption(temKOption);
+
+            var linedata_humd = [
+                ['2022/3/11', 21,24,21,24],
+                ['2022/3/12', 21,24,21,24],
+                ['2022/3/13', 22,27,22,27],
+                ['2022/3/14', 23,28,23,28],
+                ['2022/3/15', 21,24,21,24],
+                ['2022/3/16', 28,24,28,24],
+                ['2022/3/17', 21,24,21,24],
+                ['2022/3/18', 27,21,27,21],
+                ['2022/3/19', 20,23,20,23],
+                ['2022/3/20', 22,27,22,27],
+                ['2022/3/21', 23,28,23,28],
+                ['2022/3/22', 21,24,21,24],
+                ['2022/3/23', 28,24,28,24],
+                ['2022/3/24', 21,24,21,24],
+                ['2022/3/25', 27,21,27,21],
+                ['2022/3/26', 20,23,20,23],
+                ['2022/3/27', 22,27,22,27],
+                ['2022/3/28', 23,28,23,28],
+                ['2022/3/29', 21,24,21,24],
+                ['2022/3/30', 28,24,28,24],
+                ['2022/3/31', 21,24,21,24],
+            ];
+
+            var data_humd=splitData(linedata_humd);
+
+            var humKOption={
+                tooltip:{//提示框组件
+                    trigger: 'axis',//坐标轴触发
+                    axisPointer: {
+                        type: 'cross'
+                    },
+                    width:2
+                },
+                legend:{
+                    data:['日K','MA5','MA10'],
+                    top:0,
+                    textStyle:{
+                        color:'#fff'
+                    }
+                },
+
+                xAxis: {
+                    type: 'category',
+                    data: data_humd.categoryData,
+                    boundaryGap : false,
+                    axisLine: { lineStyle: { color: '#777' } }
+                },
+                yAxis: {
+                    scale: true,
+                    splitNumber: 4,//坐标轴的分割段数
+                    axisLine: { lineStyle: { color: '#777' } },
+                    splitLine: {
+                        show: true,
+                        lineStyle:{
+                            color:'#777'
+                        }
+                    },//坐标轴在 ((grid)) 区域中的分隔线。
+                    axisTick: {
+                        show: false
+                    },//刻度
+                    axisLabel: {//标签
+                        formatter: '{value}%'
+                    }
+                },
+                dataZoom: [
+                    {
+                        type: 'inside',
+                        start: 50,
+                        end: 100
+                    }
+                ],
+                grid: [{//直角坐标系内绘图网格
+                    height:'60%',
+                    top: 25
+                }],
+                series:[
+                    {
+                        type: 'candlestick',
+                        name: '日K',
+                        data: data_humd.values,
+                        barWidth:'15%',
+                        //barMinWidth:'10%',
+                        itemStyle: {
+                            normal: {
+                                color: 'red',
+                                color0: '#B0CC35',
+                                borderColor: 'red',
+                                borderColor0: '#B0CC35'
+                            }
+                        }
+                    },
+                    {
+                        name: 'MA5',
+                        type: 'line',
+                        data: calculateMA(5, data_humd.values),
+                        smooth: true
+                    },
+                    {
+                        name: 'MA10',
+                        type: 'line',
+                        data: calculateMA(5, data_humd.values),
+                        smooth: true,
+                        itemStyle:{
+                            normal:{
+                                color:'#B0CC35'
+                            }
+                        }
+                    }
+                ]
+            };
+            //湿度K线图
+            var dityKChart=echarts.init(document.getElementById('dityKChart'));
+            dityKChart.setOption(humKOption);
+
+            //地图
+            var mapChart=echarts.init(document.getElementById('map'));
+            var series=[];
+
+            //获取数据
+            var geoData=[
+                {name:'成都',value:[103.9526,30.7617]},
+                {name:'金华',value:[120.0037,29.1028]},
+                {name:'上海',value:[121.4648,31.2891]},
+                {name:'梁平',value:[107.8109,30.6810]},
+                {name:'简阳',value:[104.5525,30.4179]}
+            ];
+            //配置气泡点
+            geoData.forEach(function (item, i) {
+                series.push(
+                        {
+                            //name: ' Top10',
+                            type: 'effectScatter',//带有涟漪特效动画的散点（气泡）图
+                            coordinateSystem: 'geo',//系列使用的坐标系,geo为地理坐标系
+                            zlevel: 2,
+                            rippleEffect: {//涟漪特效相关配置
+                                brushType: 'stroke'//波纹的绘制方式，可选 'stroke' 和 'fill'。
+                            },
+                           /* label: {//标签相关配置
+                                normal: {
+                                    show: true,
+                                    position: 'right',
+                                    formatter: '{b}'//{a}、{b}、{c}，分别表示系列名，数据名，数据值
+                                }
+                            },*/
+                            symbolSize: 10,
+                            itemStyle: {
+                                normal: {
+                                    color: '#B0CC35'
+                                }
+                            },
+                            data: [item],
+                            tooltip:{
+                                formatter:'{b}观测点'
+                            }
+                        }
+                );
+            });
+
+
+            var option={
+
+                tooltip:{
+                    trigger:'item',
+                    formatter: '{b}'
+                },
+                geo: {
+                    map: 'china',
+                    itemStyle:{
+                        normal:{
+                            areaColor:'rgba(0,0,0,1)',
+                            borderColor:'rgb(176,203,37)'
+                        },
+                        emphasis:{
+                            areaColor:'rgba(176,203,37,.8)'
+                        }
+                    },
+                    selectedMode:'single',
+                    roam: true,
+                    silent: false,
+                    label: {
+                        emphasis: {
+                            show: true,
+                            textStyle:{
+                                color:'#B0CC35'
+                            }
+                        }
+
+                    }
+                },
+                series:series
+            };
+
+            mapChart.setOption(option);
+
+            //风向图
+            var windOption={
+                tooltip:{},
+                radar:{
+                    indicator:[
+                        {name:'N',max:12},
+                        {name:'NNW',max:12},
+                        {name:'NW',max:12},
+                        {name:'WNW',max:12},
+                        {name:'W',max:12},
+                        {name:'WSW',max:12},
+                        {name:'SW',max:12},
+                        {name:'SSW',max:12},
+                        {name:'S',max:12},
+                        {name:'SSE',max:12},
+                        {name:'SE',max:12},
+                        {name:'ESE',max:12},
+                        {name:'E',max:12},
+                        {name:'ENE',max:12},
+                        {name:'NE',max:12},
+                        {name:'NNE',max:12}
+                    ],
+                    name:{
+                        textStyle:{
+                            color:'rgba(176,204,53,1)'
+                        }
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: 'rgba(255, 255, 255, 0.4)'
+                        }
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: 'rgba(255, 255, 255, 0.4)'
+                        }
+                    },
+                    splitArea:{
+                        areaStyle:{
+                            color:'rgba(255,255,255,0)'
+                        }
+                    }
+                },
+                series:[{
+                    type:'radar',
+                    data:[
+                        {
+                            value:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                            name:'2022'
+                        }
+                    ],
+                    areaStyle:{
+                        normal:{
+                            color:'rgba(176,204,53,.5)'
+                        }
+                    },
+                    lineStyle:{
+                        normal:{
+                            color:'rgba(176,204,53,.7)'
+
+                        }
+                    },
+                    symbol:'circle',
+                    symbolSize:6,
+                    itemStyle:{
+                        normal:{
+                            color:'#A9C33B'
+                        }
+                    }
+                }]
+            };
+            var windChart=echarts.init(document.getElementById('windChart'));
+            windChart.setOption(windOption);
+
+            //var mychartdata= echarts.getMap();
+
+            var btn=$('#btn');
+            var areaData=[
+                {name: '北京', selected:false,jsonname:'beijing'},
+                {name: '天津', selected:false,jsonname:'tianjin'},
+                {name: '上海', selected:false,jsonname:'shanghai'},
+                {name: '重庆', selected:false,jsonname:'chongqing'},
+                {name: '河北', selected:false,jsonname:'hebei'},
+                {name: '河南', selected:false,jsonname:'henan'},
+                {name: '云南', selected:false,jsonname:'yunnan'},
+                {name: '辽宁', selected:false,jsonname:'liaoning'},
+                {name: '黑龙江', selected:false,jsonname:'heilongjiang'},
+                {name: '湖南', selected:false,jsonname:'hunan'},
+                {name: '安徽', selected:false,jsonname:'anhui'},
+                {name: '山东', selected:false,jsonname:'shandong'},
+                {name: '新疆', selected:false,jsonname:'xinjiang'},
+                {name: '江苏', selected:false,jsonname:'jiangsu'},
+                {name: '浙江', selected:false,jsonname:'zhejiang'},
+                {name: '江西', selected:false,jsonname:'jiangxi'},
+                {name: '湖北', selected:false,jsonname:'hubei'},
+                {name: '广西', selected:false,jsonname:'guangxi'},
+                {name: '甘肃', selected:false,jsonname:'gansu'},
+                {name: '山西', selected:false,jsonname:'shanxi'},
+                {name: '内蒙古', selected:false,jsonname:'neimenggu'},
+                {name: '陕西', selected:false,jsonname:'shanxi'},
+                {name: '吉林', selected:false,jsonname:'jilin'},
+                {name: '福建', selected:false,jsonname:'fujian'},
+                {name: '贵州', selected:false,jsonname:'guizhou'},
+                {name: '广东', selected:false,jsonname:'guangdong'},
+                {name: '青海', selected:false,jsonname:'qinghai'},
+                {name: '西藏', selected:false,jsonname:'xizang'},
+                {name: '四川', selected:false,jsonname:'sichuan'},
+                {name: '宁夏', selected:false,jsonname:'ningxia'},
+                {name: '海南', selected:false,jsonname:'hainan'},
+                {name: '台湾', selected:false,jsonname:'taiwan'},
+                {name: '香港', selected:false,jsonname:'xianggang'},
+                {name: '澳门', selected:false,jsonname:'aomen'},
+                {name: '成都市', selected:false,jsonname:'chengdu'}
+            ];
+
+            mapChart.on('geoselectchanged',function(param){
+                var areaName=param.batch[0].name;
+                for(var i=0;i<areaData.length;i++){
+                    if(areaName == areaData[i].name){
+                        btn.show();
+                        <!--改动-->
+                        mapChart.on('geoselectchanged',function(param_city){
+                            var cityName=param_city.batch[0].name;  //获取city名称
+                            //获取city.json中的名称，找到citykey，进而提取数据库信息
+                            $.getJSON('/static/assets/geojson/city.json', function (data) {
+                                for(var key in data){
+                                    if(cityName.indexOf(key) != -1){   //找到了该城市
+                                        var citykey = data[key];    //获取citykey，进而得到一系列数据
+                                        var news_info = {{news | tojson | safe}};  //js获取flask上传的数据
+                                        //console.log(news_info[citykey]);
+                                        //风速与阵风数据\雷达图
+                                        console.log(news_info[citykey][12]);
+                                        var speed={
+                                            wind:[news_info[citykey][12].toFixed(1) , news_info[citykey][15].toFixed(1)],
+                                            gust:[news_info[citykey][12].toFixed(1) , news_info[citykey][15].toFixed(1)]
+                                        };
+                                        $('#nowWind').text(speed.wind[0]);
+                                        $('#highWind').text(speed.wind[1]);
+                                        var windSpeed=(50-speed.wind[0])*10;
+                                        $('.windSpeed .windFan').css('animation-duration', windSpeed+'ms');
+                                        $('#nowGust').text(speed.gust[0]);
+                                        $('#highGust').text(speed.gust[1]);
+                                        var gustSpeed=(50-speed.gust[0])*10;
+                                        $('.gust .windFan').css('animation-duration', gustSpeed+'ms');
+
+                                        
+                                        var windata = []; 
+                                        for(var i=0;i<16;i++){
+                                            var windDir = parseFloat(news_info[citykey][13]);
+                                            if(windDir-i*22.5 < 11.25 && windDir-i*22.5 > -11.25){
+                                                if(i>=1)
+                                                    windata[i-1] = 6+Math.random()*6;
+                                                windata[i] = 6+Math.random()*6;
+                                                if(i<15)
+                                                    windata[i+1] = 6+Math.random()*6;
+                                            }
+                                            else
+                                                windata[i] = Math.random()*6;
+                                        }
+                                        for(var i=0;i<15;i++){
+                                            windOption.series[0].data[0].value[i+1]=windata[i];
+                                        }
+                                        windOption.series[0].data[0].value[0].value=windata[15];
+                                        windChart.setOption(windOption);
+
+                                        //降雨量data
+                                        function creatBall(ele,data){
+                                            new WaterPolo(ele,{
+                                                cW:55,
+                                                cH:55,
+                                                baseY:data
+                                            })
+                                        }
+                                        $('#nowDay').text(news_info[citykey][11].toFixed(2));
+                                        $('#highDay').text((news_info[citykey][11] + 0.2).toFixed(2));
+                                        $('#nowWeek').text((news_info[citykey][11] + Math.random()*1.6).toFixed(2));
+                                        $('#highWeek').text((news_info[citykey][11]*2 + Math.random()*1.8).toFixed(2));
+                                        $('#nowMonth').text((news_info[citykey][11]*14 + 1.6 + Math.random()*5.6).toFixed(2));
+                                        $('#highMonth').text((news_info[citykey][11]*14 + 1.8 +Math.random()*7.2).toFixed(2));
+                                        $('#nowYear').text((news_info[citykey][11] + 5.6 +Math.random()*18.3).toFixed(2)*100);
+                                        $('#highYear').text((news_info[citykey][11]+ 7.2 +Math.random()*22.0).toFixed(2)*120);
+                                        creatBall('rainfallOne',(news_info[citykey][11]+1).toFixed(2));
+                                        creatBall('rainfallTwo', 5 * (news_info[citykey][11]+1).toFixed(2));
+                                        creatBall('rainfallThree', 10 * (news_info[citykey][11]+1).toFixed(2));
+                                        creatBall('rainfallFour', 20 * (news_info[citykey][11]+1).toFixed(2));
+
+                                        //湿度和温度
+                                        function temHum(tem,hum){
+                                            temOption.series[2].data[0].value=tem[0];
+                                            temOption.series[3].data[0].value=tem[1];
+                                            temChart.setOption(temOption);
+                                            $('.tem-val').find('.indoor').text(tem[0]+'℃');
+                                            $('.tem-val').find('.outdoor').text(tem[1]+'℃');
+                                            humOption.series[2].data[0].value=hum[0];
+                                            humOption.series[3].data[0].value=hum[1];
+                                            humChart.setOption(humOption);
+                                            $('.hum-val').find('.indoor').text(hum[0]+"%");
+                                            $('.hum-val').find('.outdoor').text(hum[1]+"%");
+                                        }
+
+                                        temVal[0]=news_info[citykey][8];
+                                        temVal[1]=news_info[citykey][7];
+                                        humVal[0]=news_info[citykey][9];
+                                        humVal[1]=news_info[citykey][16];
+                                        temHum(temVal,humVal);
+
+                                        //左下角曲线图
+                                        var line_data_temp = {{line_data_temp | tojson | safe}};
+                                        for(var i=0;i<21;i++){
+                                            linedata_temp[i][0] = line_data_temp[citykey][i % 7][2];
+                                            linedata_temp[i][1] = line_data_temp[citykey][i % 7][1];
+                                            linedata_temp[i][2] = line_data_temp[citykey][i % 7][2];
+                                            linedata_temp[i][3] = line_data_temp[citykey][i % 7][1];
+                                        }
+                                        tempKChart.setOption(temKOption);
+
+                                        //左下角曲线图
+                                        var line_data_humd = {{line_data_humd | tojson | safe}};
+                                        for(var i=0;i<21;i++){
+                                            linedata_humd[i][0] = line_data_humd[citykey][i % 7][2];
+                                            linedata_humd[i][1] = line_data_humd[citykey][i % 7][1];
+                                            linedata_humd[i][2] = line_data_humd[citykey][i % 7][2];
+                                            linedata_humd[i][3] = line_data_humd[citykey][i % 7][1];
+                                        }
+                                        dityKChart.setOption(humKOption);
+                                    }
+                                }
+                            });
+
+                        });
+                        <!--改动-->
+                        var jsonName=areaData[i].jsonname;
+                        $.getJSON('/static/assets/geojson/'+jsonName+'.json', function (data) {
+                            mapChart.clear();
+                            mapChart.setOption(option);
+                            echarts.registerMap(jsonName, data);
+                            option.geo.map=jsonName;
+                            mapChart.setOption(option);
+                        });
+                        
+
+                    }
+                }
+
+            });
+            document.getElementById('btn').onclick=function(){
+                btn.hide();
+                mapChart.clear();
+                mapChart.setOption(option);
+                option.geo.map='china';
+                mapChart.setOption(option);
+            };
+        });
+
+
+    </script>
+</body>
+</html>

@@ -8,6 +8,12 @@ import spider_modul
 import spider_news
 import utils
 import time
+from flask_login import login_user
+from flask_login import LoginManager
+from werkzeug.security import generate_password_hash
+import uuid
+import UserMixin
+from flask_login import current_user, login_required
 
 # 这里对数据库内容进行提取
 # spider_modul.run()
@@ -25,6 +31,10 @@ line_data_humd = useful_functions.get_lineData_humd()
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "12345678"
+
+login_manager = LoginManager()  # 实例化登录管理对象
+login_manager.init_app(app)  # 初始化应用
+login_manager.login_view = 'user_login'  # 设置用户登录视图函数 endpoint
 
 
 # 首页重定位
@@ -137,6 +147,19 @@ def profile():
     return render_template('/html/profile.html')
 
 
+@app.route('/user_login', methods=['POST', 'GET'])
+def user_login():
+    if (request.method == 'GET'):
+        return render_template('user_login.html')
+    elif (request.method == 'POST'):
+        user_temp = UserMixin.User(username=request.form.get('username'), password=request.form.get('password'))
+        UserMixin.USERS.append(user_temp)
+        login_user(user_temp)
+        print("登录了")
+
+        return redirect(url_for('index'))
+
+
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if (request.method == 'GET'):
@@ -145,6 +168,21 @@ def login():
         print(request.form.get('username'))
         # time.sleep(1000000)
         return redirect(url_for('backstage'))
+
+
+
+@app.route('/user_info', methods=['POST', 'GET'])
+@login_required
+def user_info():
+    print(type(current_user))
+    return current_user
+
+
+@login_manager.user_loader
+def load_user(userid):
+    for user in UserMixin.USERS:
+        if user.get_id() == userid:
+            return userid
 
 
 # 获取分页历史统计数据

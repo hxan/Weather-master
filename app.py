@@ -1,5 +1,5 @@
 # from crypt import methods
-from flask import Flask, render_template, redirect, url_for, jsonify
+from flask import Flask, render_template, redirect, url_for, jsonify, flash
 import pymysql
 from model.forms import SearchForm
 from flask import request
@@ -8,7 +8,7 @@ import spider_modul
 import spider_news
 import utils
 import time
-from flask_login import login_user
+from flask_login import login_user, logout_user
 from flask_login import LoginManager
 from werkzeug.security import generate_password_hash
 import uuid
@@ -150,14 +150,26 @@ def profile():
 @app.route('/user_login', methods=['POST', 'GET'])
 def user_login():
     if (request.method == 'GET'):
-        return render_template('user_login.html')
+        if current_user.is_authenticated:
+            return '你已经登录，如果要登录请先退出'
+        else:
+            return render_template('user_login.html')
     elif (request.method == 'POST'):
         user_temp = UserMixin.User(username=request.form.get('username'), password=request.form.get('password'))
         UserMixin.USERS.append(user_temp)
-        login_user(user_temp)
-        print("登录了")
-
+        if login_user(user_temp):
+            print('Logged in successfully.')
+            print(current_user.username)
+        else:
+            print('Fail to logged in .')
         return redirect(url_for('index'))
+
+
+@app.route('/user_logout')
+@login_required
+def user_logout():
+    logout_user()
+    return '用户已经退出'
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -170,19 +182,19 @@ def login():
         return redirect(url_for('backstage'))
 
 
-
 @app.route('/user_info', methods=['POST', 'GET'])
 @login_required
 def user_info():
-    print(type(current_user))
-    return current_user
+    print(current_user.username)
+    print(current_user.is_authenticated)
+    return str(type(current_user))
 
 
 @login_manager.user_loader
 def load_user(userid):
-    for user in UserMixin.USERS:
-        if user.get_id() == userid:
-            return userid
+    for temp in UserMixin.USERS:
+        if temp.get_id() == userid:
+            return temp
 
 
 # 获取分页历史统计数据

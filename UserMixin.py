@@ -27,6 +27,15 @@ class User(UserMixin):
             return False
         return check_password_hash(self.password_hash, password)
 
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
     def get_id(self):
         """获取用户ID"""
         return self.id

@@ -29,6 +29,7 @@ line_data_humd = useful_functions.get_lineData_humd()
 # 计算 topK=8 的词汇对应的词频
 # words,weights = useful_functions.get_word_weights(string, topK=8)
 
+
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "12345678"
 
@@ -81,6 +82,7 @@ def kepler_map():
 
 # 搜索界面
 @app.route('/search', methods=['GET', 'POST'])
+@login_required
 def search_page():
     form = SearchForm()
     return render_template('search.html', form=form, str_list=str_list)
@@ -147,6 +149,25 @@ def profile():
     return render_template('/html/profile.html')
 
 
+@app.route('/user_register', methods=['POST', 'GET'])
+def user_register():
+    all_username = useful_functions.get_all_username()
+
+    all_username = tuple(x[0] for x in all_username)
+
+    if (request.method == 'GET'):
+        return render_template('user_register.html')
+    elif (request.method == 'POST'):
+        username = request.form.get('username')
+        password = request.form.get('password')
+        if username not in all_username:
+            user_temp = UserMixin.User(username, password)
+            useful_functions.insert_user(user_temp.username, user_temp.get_id(), user_temp.password_hash)
+            return '注册成功'
+        else:
+            return '注册失败，用户名已经被占用'
+
+
 @app.route('/user_login', methods=['POST', 'GET'])
 def user_login():
     if (request.method == 'GET'):
@@ -155,7 +176,17 @@ def user_login():
         else:
             return render_template('user_login.html')
     elif (request.method == 'POST'):
-        user_temp = UserMixin.User(username=request.form.get('username'), password=request.form.get('password'))
+
+        username = request.form.get('username')
+        password = request.form.get('password')
+        all_username = useful_functions.get_all_username()
+        all_username = tuple(x[0] for x in all_username)
+        if username not in all_username:
+            return '不存在的用户名'
+        if password != useful_functions.get_password_by_name(username):
+            return '用户名或者密码错误'
+
+        user_temp = UserMixin.User(username, password)
         UserMixin.USERS.append(user_temp)
         if login_user(user_temp):
             print('Logged in successfully.')
@@ -260,6 +291,7 @@ str_list = []
 
 
 @app.route('/news_result', methods=['POST', 'GET'])
+@login_required
 def newsResult_page():
     result = []
     newsList = spider_news.spider_news()
@@ -269,6 +301,8 @@ def newsResult_page():
     if keyword not in str_list:
         str_list.append(keyword)
     # end add
+
+    useful_functions.insert_action(current_user.username, current_user.id, keyword)
 
     list_title, list_url = newsList.getDC()
     for i in range(len(list_title)):

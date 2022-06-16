@@ -1,7 +1,7 @@
 import pymysql
 from collections import defaultdict
 import jieba.analyse
-
+import datetime
 
 HOST = '127.0.0.1'
 USER = 'root'
@@ -9,6 +9,45 @@ PASSWORD = '123456'
 PORT = 3306
 DATABASE = 'weather'
 CHAREST = 'utf8'
+
+db_user = pymysql.connect(host=HOST, user=USER,
+                          password=PASSWORD,
+                          port=PORT, database=DATABASE,
+                          charset=CHAREST)
+user_cursor = db_user.cursor()
+
+
+def insert_action(username, userid, searchKey):
+    sql = """INSERT INTO user_action(Username,
+             Userid, SearchKey, ActionTime)
+             VALUES ('%s', '%s', '%s', '%s')""" % (
+        username, userid, searchKey, str(datetime.datetime.now()))
+
+    user_cursor.execute(sql)
+    db_user.commit()
+
+
+def insert_user(username, id, password):
+    sql = """INSERT INTO user(Username,
+                 Userid, Password, RegisterTime)
+                 VALUES ('%s', '%s', '%s', '%s')""" % (
+        username, id, password, str(datetime.datetime.now()))
+
+    user_cursor.execute(sql)
+    db_user.commit()
+
+
+def get_all_username():
+    sql = """SELECT username FROM weather.user;"""
+    user_cursor.execute(sql)
+    results = user_cursor.fetchall()
+    return results
+
+def get_password_by_name(username):
+    sql = "select Password from weather.user where Username='%s'"%(username)
+    user_cursor.execute(sql)
+    results = user_cursor.fetchall()
+    return results[0][0]
 
 
 # 连接数据库并提取数据库内容
@@ -33,7 +72,10 @@ def get_datalist_info(datalist):
     citykey = []
     for item in datalist:
         citykey.append(str(item[1]))
-        tup = (item[2],item[3],item[4],item[5],item[6],item[7],item[8],item[9],item[10],item[11],item[12],item[13],item[14],item[15],item[16],item[17],item[18])
+        tup = (
+            item[2], item[3], item[4], item[5], item[6], item[7], item[8], item[9], item[10], item[11], item[12],
+            item[13],
+            item[14], item[15], item[16], item[17], item[18])
         datainfo.append(tup)
     return dict(zip(citykey, datainfo))
 
@@ -45,7 +87,8 @@ def get_word_weights(string, topK):
     for x, w in jieba.analyse.textrank(string, withWeight=True, topK=topK):
         words.append(x)
         weights.append(w)
-    return words,weights
+    return words, weights
+
 
 # 得到气温走势曲线
 def get_lineData_temp():
@@ -53,11 +96,11 @@ def get_lineData_temp():
     cnn = pymysql.connect(host=HOST, user=USER, password=PASSWORD, port=PORT, database=DATABASE,
                           charset=CHAREST)
     cursor = cnn.cursor()
-    sql = 'select Station_Id_C, Day, max(TEM),min(TEM) from weather group by Station_Id_C ,Day;'      #对温度求最大值和最小值 group by day, cityKey;
-    cursor.execute(sql) 
+    sql = 'select Station_Id_C, Day, max(TEM),min(TEM) from weather group by Station_Id_C ,Day;'  # 对温度求最大值和最小值 group by day, cityKey;
+    cursor.execute(sql)
     line_dict = defaultdict(list)
     for item in cursor.fetchall():
-        line_data.append(item)    # 返回Days相同的所有地区七天的最高/最低温度数据
+        line_data.append(item)  # 返回Days相同的所有地区七天的最高/最低温度数据
 
     for Id, Day, mAx, mIn in line_data:
         Id = str(Id)
@@ -67,17 +110,18 @@ def get_lineData_temp():
 
     return line_dict
 
+
 # 得到湿度走势曲线
 def get_lineData_humd():
     line_data = []
     cnn = pymysql.connect(host=HOST, user=USER, password=PASSWORD, port=PORT, database=DATABASE,
                           charset=CHAREST)
     cursor = cnn.cursor()
-    sql = 'select Station_Id_C, Day, max(RHU),min(RHU) from weather group by Station_Id_C ,Day;'      #对温度求最大值和最小值 group by day, cityKey;
-    cursor.execute(sql) 
+    sql = 'select Station_Id_C, Day, max(RHU),min(RHU) from weather group by Station_Id_C ,Day;'  # 对温度求最大值和最小值 group by day, cityKey;
+    cursor.execute(sql)
     line_dict = defaultdict(list)
     for item in cursor.fetchall():
-        line_data.append(item)    # 返回Days相同的所有地区七天的最高/最低温度数据
+        line_data.append(item)  # 返回Days相同的所有地区七天的最高/最低温度数据
 
     for Id, Day, mAx, mIn in line_data:
         Id = str(Id)

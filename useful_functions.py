@@ -27,11 +27,11 @@ def insert_action(username, userid, searchKey):
     db_user.commit()
 
 
-def insert_user(username, id, password):
+def insert_user(username, id, password, address):
     sql = """INSERT INTO user(Username,
-                 Userid, Password, RegisterTime)
-                 VALUES ('%s', '%s', '%s', '%s')""" % (
-        username, id, password, str(datetime.datetime.now()))
+                 Userid, Password, RegisterTime,Address)
+                 VALUES ('%s', '%s', '%s', '%s','%s')""" % (
+        username, id, password, str(datetime.datetime.now()), address)
 
     user_cursor.execute(sql)
     db_user.commit()
@@ -43,11 +43,25 @@ def get_all_username():
     results = user_cursor.fetchall()
     return results
 
+
 def get_password_by_name(username):
-    sql = "select Password from weather.user where Username='%s'"%(username)
+    sql = "select Password from weather.user where Username='%s'" % (username)
     user_cursor.execute(sql)
     results = user_cursor.fetchall()
     return results[0][0]
+
+
+def get_address_by_name(username):
+    sql = "select Address from weather.user where Username='%s'" % (username)
+    user_cursor.execute(sql)
+    results = user_cursor.fetchall()
+    return results[0][0]
+
+
+def set_address_by_name(username, address):
+    sql = "update weather.user set Address='%s' where Username='%s'" % (address, username)
+    user_cursor.execute(sql)
+    db_user.commit()
 
 
 # 连接数据库并提取数据库内容

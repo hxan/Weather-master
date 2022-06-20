@@ -3,6 +3,8 @@
 # Generator: MySQL-Front 5.7
 # Internet: http://www.mysqlfront.de/
 # 记录用户的搜索记录和点击城市记录
+
+
 DROP TABLE IF EXISTS `user_action`;
 CREATE TABLE `user_action` (
     `Username` varchar(255) NOT NULL,

@@ -144,8 +144,8 @@
 <script src="static/assets/js/main.js"></script>
 <script>
 	var recognition = new webkitSpeechRecognition();
-	//recognition.continuous = true;
-	//recognition.interimResults = true;
+	recognition.continuous = true;
+	recognition.interimResults = true;
 	recognition.lang = 'cmn-Hans-CN';
 	//recognition.start();
 	recognition.onresult = function(event) {

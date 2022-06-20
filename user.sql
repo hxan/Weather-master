@@ -8,5 +8,6 @@ CREATE TABLE `user` (
     `Username` varchar(255) NOT NULL,
     `Userid` varchar(255) NOT NULL,
     `Password` varchar(255),
-    `RegisterTime` datetime
+    `RegisterTime` datetime,
+    `Address` varchar(255)
 ) ENGINE=InnoDB AUTO_INCREMENT=414 DEFAULT CHARSET=utf8;

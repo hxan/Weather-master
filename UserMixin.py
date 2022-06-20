@@ -12,14 +12,17 @@ from flask import render_template, redirect, url_for, request
 from flask_login import login_user
 
 USERS = []
+
+
 class User(UserMixin):
     """用户类"""
 
-    def __init__(self, username, password):
+    def __init__(self, username, password, address):
 
         self.username = username
         self.password_hash = password
         self.id = uuid.uuid4()
+        self.address = address
 
     def verify_password(self, password):
         """密码验证"""

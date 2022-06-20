@@ -126,7 +126,7 @@ def backstage():
 
 @app.route('/user')
 def user():
-    return render_template('user.html')
+    return render_template('/html/profile.html')
 
 
 @app.route('/html/dashboard')
@@ -161,8 +161,8 @@ def user_register():
         username = request.form.get('username')
         password = request.form.get('password')
         if username not in all_username:
-            user_temp = UserMixin.User(username, password)
-            useful_functions.insert_user(user_temp.username, user_temp.get_id(), user_temp.password_hash)
+            user_temp = UserMixin.User(username, password, '中国')
+            useful_functions.insert_user(user_temp.username, user_temp.get_id(), user_temp.password_hash, '中国')
             return '注册成功'
         else:
             return '注册失败，用户名已经被占用'
@@ -186,11 +186,12 @@ def user_login():
         if password != useful_functions.get_password_by_name(username):
             return '用户名或者密码错误'
 
-        user_temp = UserMixin.User(username, password)
+        user_temp = UserMixin.User(username, password, address=useful_functions.get_address_by_name(username))
         UserMixin.USERS.append(user_temp)
         if login_user(user_temp):
             print('Logged in successfully.')
             print(current_user.username)
+            print(current_user.address)
         else:
             print('Fail to logged in .')
         return redirect(url_for('index'))
@@ -213,12 +214,21 @@ def login():
         return redirect(url_for('backstage'))
 
 
-@app.route('/user_info', methods=['POST', 'GET'])
+@app.route('/user_info')
 @login_required
 def user_info():
-    print(current_user.username)
-    print(current_user.is_authenticated)
-    return str(type(current_user))
+    print('current_user.username is ' + current_user.username)
+    print('current_user.address is ' + current_user.address)
+
+    address_new = request.args.get('address')
+    print('address_new is ' + str(address_new))
+
+    if address_new != None and address_new != current_user.address:
+        current_user.address = address_new
+        print("current_user.address" + str(current_user.address))
+        useful_functions.set_address_by_name(username=current_user.username, address=current_user.address)
+
+    return render_template('/html/profile.html', username=current_user.username, user_address=current_user.address)
 
 
 @login_manager.user_loader

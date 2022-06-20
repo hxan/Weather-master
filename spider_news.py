@@ -53,7 +53,7 @@ class spider_news:
 
     #动态咨询 Dynamic consulting
     def getDC(self):
-        return self.do_get_news('http://data.cma.cn/article/getList/cateId/3/page/', 48, 51)
+        return self.do_get_news('http://data.cma.cn/article/getList/cateId/3/page/', 40, 51)
 
     #服务快报 Service letters
     def getSL(self):

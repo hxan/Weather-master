@@ -76,7 +76,8 @@
     <p>Search You Want</p>
     <ul class="actions">
         <li>
-            <button onclick="recognition.start();">语音识别</button>>
+            <button onclick="recognition.start();">语音识别</button>
+            >
             <form action="/news_result" method="POST" name="search" role="search">
                 <input id="query" name="query" type="text" value="" placeholder="Search"/>
             </form>
@@ -102,7 +103,17 @@
 
 
         </li>
+
     </ul>
+
+    <p>
+        猜你想看:
+    </p>
+    {%for index, _ in similar_titles:%}
+    <p style="font-size:15px">
+        <a href="http://data.cma.cn/{{list_url[index]}}">{{list_title[index]}}</a>
+    </p>
+    {% endfor %}
 </section>
 
 <!-- Scripts -->
@@ -156,6 +167,9 @@
 
 
 	}
+
+
+
 
 </script>
 </body>

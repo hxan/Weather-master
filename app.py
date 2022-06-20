@@ -1,6 +1,8 @@
 # from crypt import methods
 from flask import Flask, render_template, redirect, url_for, jsonify, flash
 import pymysql
+
+import recommend
 from model.forms import SearchForm
 from flask import request
 import useful_functions
@@ -14,9 +16,11 @@ from werkzeug.security import generate_password_hash
 import uuid
 import UserMixin
 from flask_login import current_user, login_required
+import recommend
 
 # 这里对数据库内容进行提取
 # spider_modul.run()
+
 datalist = useful_functions.get_datalist()
 
 # 这里分析数据库内容，提炼出数据库信息，并对文本内容分词
@@ -87,7 +91,12 @@ def search_page():
     form = SearchForm()
     searchKeys = useful_functions.get_action_by_name(current_user.username)
     searchKeys = tuple(x[0] for x in searchKeys)
-    return render_template('search.html', form=form, str_list=searchKeys)
+    newsList = spider_news.spider_news()
+    list_title, list_url = newsList.getDC()
+    return render_template('search.html', form=form, str_list=searchKeys,
+                           similar_titles=recommend.recommend_news(searchKeys, list_title, list_url),
+                           list_title=list_title, list_url=list_url
+                           )
 
 
 # 登录页面
@@ -312,6 +321,7 @@ def newsResult_page():
     useful_functions.insert_action(current_user.username, current_user.id, keyword)
 
     list_title, list_url = newsList.getDC()
+    # print(list_url)
     for i in range(len(list_title)):
         if list_title[i].__contains__(keyword):
             result.append((i + 1, list_title[i], 'http://data.cma.cn' + list_url[i]))

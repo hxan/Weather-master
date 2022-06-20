@@ -26,6 +26,11 @@ def insert_action(username, userid, searchKey):
     user_cursor.execute(sql)
     db_user.commit()
 
+def get_action_by_name(username):
+    sql = "select SearchKey from weather.user_action where Username='%s'" % (username)
+    user_cursor.execute(sql)
+    results = user_cursor.fetchall()
+    return results
 
 def insert_user(username, id, password, address):
     sql = """INSERT INTO user(Username,

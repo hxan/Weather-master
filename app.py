@@ -85,7 +85,9 @@ def kepler_map():
 @login_required
 def search_page():
     form = SearchForm()
-    return render_template('search.html', form=form, str_list=str_list)
+    searchKeys = useful_functions.get_action_by_name(current_user.username)
+    searchKeys = tuple(x[0] for x in searchKeys)
+    return render_template('search.html', form=form, str_list=searchKeys)
 
 
 # 登录页面
@@ -306,11 +308,6 @@ def newsResult_page():
     result = []
     newsList = spider_news.spider_news()
     keyword = request.form.get('query')
-
-    # add by lws 历史功能
-    if keyword not in str_list:
-        str_list.append(keyword)
-    # end add
 
     useful_functions.insert_action(current_user.username, current_user.id, keyword)
 

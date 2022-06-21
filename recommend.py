@@ -3,35 +3,49 @@
 # datetime:2022/6/20 14:45
 # software: PyCharm
 # file    : recommend.py     
-# description :
+# description :推荐系统
 
-# 返回列表
 import jieba
-import gensim
 from gensim.models import doc2vec
+from flask_login import current_user
 
-#list_title:list类型 存储标题
-#list_url:list类型 存储连接
-#return,
+
 def recommend_news(searchKeys, list_title, list_url):
+    """
+    简单推荐系统
+
+    Parameters:
+     param1 - 搜索记录列表
+     param2 - 新闻标题列表
+
+    Returns:
+     返回结果
+
+    Raises:
+     None
+    """
+
     train_set = []
     for i in range(0, len(list_title)):
-        # 一句话
-        title = list_title[i]
-        word_list = jieba.lcut(title)
+        title = list_title[i]  # 拿到每一行
+        word_list = jieba.lcut(title)  # 分词
         doc = doc2vec.TaggedDocument(word_list, tags=[i])
         train_set.append(doc)
 
+    # 模型建立
     model = doc2vec.Doc2Vec(train_set, min_count=1, window=3, vector_size=300, sample=1e-3, workers=4)
     model.build_vocab(train_set)
     model.train(train_set, total_examples=model.corpus_count, epochs=model.epochs)
 
-    vector = model.infer_vector(doc_words=searchKeys, alpha=0.25)
+    vector = model.infer_vector(doc_words=searchKeys + jieba.lcut(current_user.address), alpha=0.25)
     similar_titles = model.docvecs.most_similar([vector], topn=3)
 
-    for index, _ in similar_titles:
-        print('http://data.cma.cn/' + list_url[index], list_title[index])
+    #用于输出调试
+    # for index, _ in similar_titles:
+    #     print('http://data.cma.cn/' + list_url[index], list_title[index])
+
     return similar_titles
+
 
 if __name__ == '__main__':
     searchKeys = ['河北', '广西', '极端天气', '雨']

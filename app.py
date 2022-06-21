@@ -1,22 +1,15 @@
-# from crypt import methods
-from flask import Flask, render_template, redirect, url_for, jsonify, flash
-import pymysql
-
-import recommend
-from model.forms import SearchForm
-from flask import request
-import useful_functions
-import spider_modul
-import spider_news
 import utils
-import time
-from flask_login import login_user, logout_user
-from flask_login import LoginManager
-from werkzeug.security import generate_password_hash
-import uuid
-import UserMixin
-from flask_login import current_user, login_required
 import recommend
+import UserFlask
+import spider_news
+import spider_modul
+import useful_functions
+from flask import request
+from model.forms import SearchForm
+from flask_login import LoginManager
+from flask_login import login_user, logout_user
+from flask_login import current_user, login_required
+from flask import Flask, render_template, redirect, url_for, jsonify, flash
 
 # 这里对数据库内容进行提取
 # spider_modul.run()
@@ -90,7 +83,7 @@ def kepler_map():
 def search_page():
     form = SearchForm()
     searchKeys = useful_functions.get_action_by_name(current_user.username)
-    searchKeys = tuple(x[0] for x in searchKeys)
+    searchKeys = list(x[0] for x in searchKeys)
     newsList = spider_news.spider_news()
     list_title, list_url = newsList.getDC()
     return render_template('search.html', form=form, str_list=searchKeys,
@@ -172,7 +165,7 @@ def user_register():
         username = request.form.get('username')
         password = request.form.get('password')
         if username not in all_username:
-            user_temp = UserMixin.User(username, password, '中国')
+            user_temp = UserFlask.User(username, password, '中国')
             useful_functions.insert_user(user_temp.username, user_temp.get_id(), user_temp.password_hash, '中国')
             return '注册成功'
         else:
@@ -197,12 +190,10 @@ def user_login():
         if password != useful_functions.get_password_by_name(username):
             return '用户名或者密码错误'
 
-        user_temp = UserMixin.User(username, password, address=useful_functions.get_address_by_name(username))
-        UserMixin.USERS.append(user_temp)
+        user_temp = UserFlask.User(username, password, address=useful_functions.get_address_by_name(username))
+        UserFlask.USERS.append(user_temp)
         if login_user(user_temp):
             print('Logged in successfully.')
-            print(current_user.username)
-            print(current_user.address)
         else:
             print('Fail to logged in .')
         return redirect(url_for('index'))
@@ -221,7 +212,6 @@ def login():
         return render_template('login.html')
     elif (request.method == 'POST'):
         print(request.form.get('username'))
-        # time.sleep(1000000)
         return redirect(url_for('backstage'))
 
 
@@ -244,7 +234,7 @@ def user_info():
 
 @login_manager.user_loader
 def load_user(userid):
-    for temp in UserMixin.USERS:
+    for temp in UserFlask.USERS:
         if temp.get_id() == userid:
             return temp
 
@@ -321,7 +311,6 @@ def newsResult_page():
     useful_functions.insert_action(current_user.username, current_user.id, keyword)
 
     list_title, list_url = newsList.getDC()
-    # print(list_url)
     for i in range(len(list_title)):
         if list_title[i].__contains__(keyword):
             result.append((i + 1, list_title[i], 'http://data.cma.cn' + list_url[i]))
